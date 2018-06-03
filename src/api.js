@@ -1,5 +1,7 @@
 const express = require('express');
 
+const CutterService = require('./services/cutter');
+
 const router = express.Router();
 
 /**
@@ -18,6 +20,7 @@ router.post('/emoji', (req, res) => {
     });
 
     // call cutting service
+    CutterService.cutImage(imageFile.name);
 
     // send back file
     res.status(200).send('mnoice');
