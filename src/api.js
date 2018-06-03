@@ -9,18 +9,18 @@ router.get('/', (req, res) => {
     res.status(200).send('ok');
 });
 
-router.post('/', (req, res) => {
-    console.log('files', req.files);
-    let sampleFile = req.files.upfile;
-
-    sampleFile.mv('./filename.jpg', (err) => {
+router.post('/emoji', (req, res) => {
+    // get and save file
+    let imageFile = req.files.upfile;
+    imageFile.mv(`./src/image-in/${imageFile.name}`).then((err) => {
         if (err)
-            return res.status(500).send(err);
-
-        res.send('File uploaded!');
+            res.status(500).send(err);
     });
 
-    res.status(200).send('post ok');
+    // call cutting service
+
+    // send back file
+    res.status(200).send('mnoice');
 });
 
 // development playground
