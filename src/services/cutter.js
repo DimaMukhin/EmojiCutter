@@ -12,7 +12,7 @@ cutter.cutImage = (imageName) => {
             for (let col = 0; col * iconSize <= imgWidth - iconSize; col++) {
                 image.clone()
                     .crop(row * iconSize, col * iconSize, iconSize, iconSize)
-                    .write(`./src/image-out/${row}-${col}-${imageName}`);
+                    .write(`./src/image-out/${imageName}/${row}-${col}-${imageName}`);
             }
         }
     }).catch((err) => {

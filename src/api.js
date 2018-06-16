@@ -1,6 +1,7 @@
 const express = require('express');
 
 const CutterService = require('./services/cutter');
+const ZipperService = require('./services/zipper');
 
 const router = express.Router();
 
@@ -21,6 +22,9 @@ router.post('/emoji', (req, res) => {
 
     // call cutting service
     CutterService.cutImage(imageFile.name);
+
+    // zip image
+    ZipperService.zipImage(imageFile.name);
 
     // send back file
     res.status(200).send('mnoice');
