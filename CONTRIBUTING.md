@@ -1,6 +1,6 @@
 # CONTRIBUTING
 
-Thank you for considering contributing to EmojiCutter. Please read the guide a pull request. Happy Hacking!
+Thank you for considering contributing to EmojiCutter. Please read the guide before creating a pull request. Happy Hacking!
 
 ## How to contribute
 
