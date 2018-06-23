@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     res.status(200).send('ok');
 });
 
-router.post('/emoji', (req, res) => {
+router.post('/emoji', async (req, res) => {
     // get and save file
     let imageFile = req.files.upfile;
     imageFile.mv(`./src/image-in/${imageFile.name}`).then((err) => {
@@ -21,13 +21,15 @@ router.post('/emoji', (req, res) => {
     });
 
     // call cutting service
-    CutterService.cutImage(imageFile.name);
+    await CutterService.cutImage(imageFile.name);
 
     // zip image
-    ZipperService.zipImage(imageFile.name);
+    await ZipperService.zipImage(imageFile.name);
 
     // send back file
-    res.status(200).send('mnoice');
+    let fileName = imageFile.name + '.zip';
+    res.set("Content-Disposition", `attachment;filename=${fileName}`);
+    res.status(200).sendFile(__dirname + '\\zip-out\\' + fileName);
 });
 
 // development playground
