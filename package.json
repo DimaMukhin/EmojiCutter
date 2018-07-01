@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +14,7 @@
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
     "fs": "0.0.1-security",
-    "jimp": "^0.2.28"
+    "jimp": "^0.2.28",
+    "nodemon": "^1.17.5"
   }
 }
