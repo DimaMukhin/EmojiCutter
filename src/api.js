@@ -29,7 +29,7 @@ router.post('/emoji', async (req, res) => {
     // send back file
     let fileName = imageFile.name + '.zip';
     res.set("Content-Disposition", `attachment;filename=${fileName}`);
-    res.status(200).sendFile(__dirname + '\\zip-out\\' + fileName);
+    res.status(200).sendFile(__dirname + '/zip-out/' + fileName);
 });
 
 // development playground
