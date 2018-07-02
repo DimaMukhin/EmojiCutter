@@ -17,7 +17,7 @@ cutter.cutImage = (imageName) => {
                     image.clone()
                         .crop(col * iconSize, row * iconSize, iconSize, iconSize)
                         .write(`./src/image-out/${imageName}/${row}-${col}-${imageName}`, () => {
-                            resolve();
+                            resolve([imgHeight / iconSize, imgWidth / iconSize]);
                         });
                 }
             }

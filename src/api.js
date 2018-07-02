@@ -1,7 +1,10 @@
 const express = require('express');
+const fs = require('fs');
+const rimraf = require('rimraf');
 
 const CutterService = require('./services/cutter');
 const ZipperService = require('./services/zipper');
+const stringBuilder = require('./services/string-builder');
 
 const router = express.Router();
 
@@ -21,14 +24,22 @@ router.post('/emoji', async (req, res) => {
     });
 
     // call cutting service
-    await CutterService.cutImage(imageFile.name);
+    let rowsCols = await CutterService.cutImage(imageFile.name);
+
+    // build emoji string
+    let emojiString = stringBuilder.buildEmojiString(rowsCols[0], rowsCols[1], imageFile.name);
 
     // zip image
     await ZipperService.zipImage(imageFile.name);
 
+    // delete image-in and image-out
+    fs.unlink(`./src/image-in/${imageFile.name}`, (err) => { if (err) console.log(err);});
+    rimraf(`./src/image-out/${imageFile.name}`, (err) => { if (err) console.log(err);});
+
     // send back file
     let fileName = imageFile.name + '.zip';
     res.set("Content-Disposition", `attachment;filename=${fileName}`);
+    res.set("Emoji-String", `"${emojiString}"`);
     res.status(200).sendFile(__dirname + '/zip-out/' + fileName);
 });
 
