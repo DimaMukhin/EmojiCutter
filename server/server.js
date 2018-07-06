@@ -22,12 +22,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// connecting React front-end with express back-end
+app.use(express.static(path.join(__dirname, '../build')));
+
 // setting /api route as the default api route of the application
 app.use('/api', api);
 
-app.get('/',function(req,res){
-  res.sendFile(__dirname+'/index.html');
-})
+// all other routes redirect to React front-end
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+});
 
 // start listening for requests on the given port
 app.listen(port, () => {
