@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 router.post('/emoji', async (req, res) => {
     // get and save file
     let imageFile = req.files.upfile;
-    imageFile.mv(`./src/image-in/${imageFile.name}`).then((err) => {
+    imageFile.mv(`./server/src/image-in/${imageFile.name}`).then((err) => {
         if (err)
             res.status(500).send(err);
     });
@@ -33,14 +33,16 @@ router.post('/emoji', async (req, res) => {
     await ZipperService.zipImage(imageFile.name);
 
     // delete image-in and image-out
-    fs.unlink(`./src/image-in/${imageFile.name}`, (err) => { if (err) console.log(err);});
-    rimraf(`./src/image-out/${imageFile.name}`, (err) => { if (err) console.log(err);});
+    fs.unlink(`./server/src/image-in/${imageFile.name}`, (err) => { if (err) console.log(err);});
+    rimraf(`./server/src/image-out/${imageFile.name}`, (err) => { if (err) console.log(err);});
 
     // send back file
     let fileName = imageFile.name + '.zip';
     res.set("Content-Disposition", `attachment;filename=${fileName}`);
+    res.set("Content-Type", `application/octet-stream`);
+    res.set("file-name", fileName);
     res.set("Emoji-String", `"${emojiString}"`);
-    res.status(200).sendFile(__dirname + '/zip-out/' + fileName);
+    res.status(200).sendFile(__dirname + '/zip-out/' + 'sample-img.png.zip');
 });
 
 // development playground

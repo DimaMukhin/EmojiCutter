@@ -6,7 +6,7 @@ const path = require('path');
 const api = require('./src/api');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 // setting json parsing of http requests
 app.use(bodyParser.urlencoded({ extended: true }));

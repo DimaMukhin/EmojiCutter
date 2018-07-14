@@ -5,7 +5,7 @@ const zipper = {};
 
 zipper.zipImage = (imageName) => {
     return new Promise((resolve, reject) => {
-        const output = fs.createWriteStream(`./src/zip-out/${imageName}.zip`);
+        const output = fs.createWriteStream(`./server/src/zip-out/${imageName}.zip`);
         let archive = archiver('zip');
 
         output.on('close', function () {
@@ -21,7 +21,7 @@ zipper.zipImage = (imageName) => {
 
         archive.pipe(output);
 
-        archive.directory(`./src/image-out/${imageName}`, false);
+        archive.directory(`./server/src/image-out/${imageName}`, false);
 
         archive.finalize();
     });

@@ -14,7 +14,13 @@ class App extends Component {
           {routes.map((route, i) => <Route key={i} {...route} />)}
         </Switch>
         <hr />
-        <h1>GitHub: <a href="https://github.com/DimaMukhin/EmojiCutter" target="_blank">https://github.com/DimaMukhin/EmojiCutter</a></h1>
+        <h1>GitHub: 
+          <a 
+            href="https://github.com/DimaMukhin/EmojiCutter" 
+            target="_blank" rel="noopener noreferrer">
+            https://github.com/DimaMukhin/EmojiCutter
+          </a>
+        </h1>
       </div>
     );
   }
