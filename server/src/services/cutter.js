@@ -6,7 +6,9 @@ const iconSize = 128;
 
 cutter.cutImage = (imageName) => {
     return new Promise((resolve, reject) => {
+        console.log('reading image to cut');
         Jimp.read(path.join(__dirname, `../image-in/${imageName}`)).then((image) => {
+            console.log('image was read successfully');
             let imgWidth = image.bitmap.width;
             let imgHeight = image.bitmap.height;
 
@@ -18,12 +20,13 @@ cutter.cutImage = (imageName) => {
                     image.clone()
                         .crop(col * iconSize, row * iconSize, iconSize, iconSize)
                         .write(path.join(__dirname, `../image-out/${imageName}/${row}-${col}-${imageName}`), () => {
+                            console.log('emoji writing (row, col):', row, col);
                             resolve([imgHeight / iconSize, imgWidth / iconSize]);
                         });
                 }
             }
         }).catch((err) => {
-            console.log(err);
+            console.log('could not read image', err);
             reject(err);
         });
     });

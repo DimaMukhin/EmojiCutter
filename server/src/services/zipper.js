@@ -6,6 +6,7 @@ const zipper = {};
 
 zipper.zipImage = (imageName) => {
     return new Promise((resolve, reject) => {
+        console.log('creating writing stream');
         const output = fs.createWriteStream(path.join(__dirname, `../zip-out/${imageName}.zip`));
         let archive = archiver('zip');
 
@@ -16,6 +17,7 @@ zipper.zipImage = (imageName) => {
         });
 
         archive.on('error', function (err) {
+            console.log('error while zipping', err);
             reject();
             throw err;
         });
