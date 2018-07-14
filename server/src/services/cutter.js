@@ -1,11 +1,12 @@
 const Jimp = require('jimp');
+const path = require('path');
 
 const cutter = {};
 const iconSize = 128;
 
 cutter.cutImage = (imageName) => {
     return new Promise((resolve, reject) => {
-        Jimp.read(`./server/src/image-in/${imageName}`).then((image) => {
+        Jimp.read(path.join(__dirname, `../image-in/${imageName}`)).then((image) => {
             let imgWidth = image.bitmap.width;
             let imgHeight = image.bitmap.height;
 
@@ -16,7 +17,7 @@ cutter.cutImage = (imageName) => {
 
                     image.clone()
                         .crop(col * iconSize, row * iconSize, iconSize, iconSize)
-                        .write(`./server/src/image-out/${imageName}/${row}-${col}-${imageName}`, () => {
+                        .write(path.join(__dirname, `../image-out/${imageName}/${row}-${col}-${imageName}`), () => {
                             resolve([imgHeight / iconSize, imgWidth / iconSize]);
                         });
                 }

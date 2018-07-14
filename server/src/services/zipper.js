@@ -1,11 +1,12 @@
 const fs = require('fs');
 const archiver = require('archiver');
+const path = require('path');
 
 const zipper = {};
 
 zipper.zipImage = (imageName) => {
     return new Promise((resolve, reject) => {
-        const output = fs.createWriteStream(`./server/src/zip-out/${imageName}.zip`);
+        const output = fs.createWriteStream(path.join(__dirname, `../zip-out/${imageName}.zip`));
         let archive = archiver('zip');
 
         output.on('close', function () {
@@ -15,13 +16,13 @@ zipper.zipImage = (imageName) => {
         });
 
         archive.on('error', function (err) {
-            throw err;
             reject();
+            throw err;
         });
 
         archive.pipe(output);
 
-        archive.directory(`./server/src/image-out/${imageName}`, false);
+        archive.directory(path.join(__dirname, `../image-out/${imageName}`), false);
 
         archive.finalize();
     });
