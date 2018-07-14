@@ -1,7 +1,7 @@
 node_modules/
 src/playground.js
 Thumbs.db
-image-in/
-image-out/
-zip-out/
+*.zip
 *.png
+!sample-img.png
+!sample-img.png.zip
