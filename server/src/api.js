@@ -36,13 +36,16 @@ router.post('/emoji', async (req, res) => {
     fs.unlink(`./server/src/image-in/${imageFile.name}`, (err) => { if (err) console.log(err);});
     rimraf(`./server/src/image-out/${imageFile.name}`, (err) => { if (err) console.log(err);});
 
-    // send back file
-    let fileName = imageFile.name + '.zip';
-    res.set("Content-Disposition", `attachment;filename=${fileName}`);
-    res.set("Content-Type", `application/octet-stream`);
-    res.set("file-name", fileName);
-    res.set("Emoji-String", `"${emojiString}"`);
-    res.status(200).sendFile(__dirname + '/zip-out/' + 'sample-img.png.zip');
+    // send back response
+    res.status(200).send({
+        fileName: imageFile.name,
+    });
+});
+
+router.get('/emoji/:name', (req, res) => {
+    const fileName = req.params.name;
+    const fileLocation = __dirname + '/zip-out/' + fileName + '.zip';
+    res.download(fileLocation);
 });
 
 // development playground

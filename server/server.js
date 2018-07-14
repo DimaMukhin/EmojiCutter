@@ -8,6 +8,9 @@ const api = require('./src/api');
 const app = express();
 const port = process.env.PORT || 4000;
 
+// connecting React front-end with express back-end
+app.use(express.static(path.join(__dirname, '../build')));
+
 // setting json parsing of http requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -21,9 +24,6 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-// connecting React front-end with express back-end
-app.use(express.static(path.join(__dirname, '../build')));
 
 // setting /api route as the default api route of the application
 app.use('/api', api);

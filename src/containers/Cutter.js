@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import fileDownload from 'react-file-download';
 
 class Cutter extends Component {
     state = {
-        selectedFile: null
+        selectedFile: undefined,
+        zipFileName: undefined,
     }
 
     fileSelectedHandler = event => {
@@ -21,9 +21,12 @@ class Cutter extends Component {
                 console.log(progressEvent.loaded / progressEvent.total)
             }
         }).then((res) => {
-            console.log(res);
-            fileDownload(res.data, res.headers['file-name']);
+            this.setState({ zipFileName: res.data.fileName });
         });
+    }
+
+    fileDownloadHandler = () => {
+        window.open(`/api/emoji/${this.state.zipFileName}`);
     }
 
     render() {
@@ -32,6 +35,7 @@ class Cutter extends Component {
                 <h1>Upload image Here</h1>
                 <input type="file" onChange={this.fileSelectedHandler} name="upfile" value="" />
                 <button onClick={this.fileUploadHandler}>Upload</button>
+                <button onClick={this.fileDownloadHandler}>Download</button>
             </div>
         );
     }
