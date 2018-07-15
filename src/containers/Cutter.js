@@ -1,32 +1,41 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
+import emojiCutterClient from '../services/emoji-cutter-client';
 
 class Cutter extends Component {
     state = {
         selectedFile: undefined,
-        zipFileName: undefined,
+        largeEmojiFileName: undefined,
     }
 
     fileSelectedHandler = event => {
-        this.setState({
-            selectedFile: event.target.files[0]
-        });
+        this.setState({ selectedFile: event.target.files[0] });
     }
 
     fileUploadHandler = () => {
-        const formData = new FormData();
-        formData.append('upfile', this.state.selectedFile, this.state.selectedFile.name);
-        axios.post('/api/emoji', formData, {
-            onUploadProgress: progressEvent => {
-                console.log(progressEvent.loaded / progressEvent.total)
-            }
-        }).then((res) => {
-            this.setState({ zipFileName: res.data.fileName });
-        });
+        if (!this.state.selectedFile)
+            return;
+        
+        emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.updateUploadProgressHandler)
+            .then((res) => {
+                this.setState({ largeEmojiFileName: res.data.fileName });
+            }).catch((err) => {
+                // TODO: handle cutting rejection
+            });
+    }
+
+    updateUploadProgressHandler = (progressEvent) => {
+        if (!progressEvent)
+            return;
+
+        console.log(progressEvent.loaded / progressEvent.total);
     }
 
     fileDownloadHandler = () => {
-        window.open(`/api/emoji/${this.state.zipFileName}`);
+        if (!this.state.largeEmojiFileName)
+            return;
+
+        emojiCutterClient.downloadEmojiInNewWindow(this.state.largeEmojiFileName);
     }
 
     render() {
