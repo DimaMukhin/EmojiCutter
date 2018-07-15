@@ -3,13 +3,13 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 
-const api = require('./src/api');
+const api = require('./server/api');
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 // connecting React front-end with express back-end
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, './build')));
 
 // setting json parsing of http requests
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,7 +30,7 @@ app.use('/api', api);
 
 // all other routes redirect to React front-end
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build/index.html'));
+  res.sendFile(path.join(__dirname, './build/index.html'));
 });
 
 // start listening for requests on the given port
