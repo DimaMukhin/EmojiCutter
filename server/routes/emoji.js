@@ -1,10 +1,9 @@
-const fs = require('fs');
-const rimraf = require('rimraf');
 const path = require('path');
 
 const CutterService = require('../services/cutter');
 const ZipperService = require('../services/zipper');
 const stringBuilder = require('../services/string-builder');
+const fileManager = require('../services/file-manager');
 
 // TODO: improve error system
 
@@ -21,22 +20,24 @@ module.exports = (router) => {
         console.log('POST /emoji');
         console.log('saving image in storage');
         let imageFile = req.files.upfile;
-        imageFile.mv(path.join(__dirname, `../image-in/${imageFile.name}`)).then((err) => {
-            if (err) {
-                console.log('error while saving file, sending status 500');
-                res.status(500).send(err);
-            }
-        }).catch((err) => {
+
+        try {
+            await fileManager.moveFile(imageFile, path.join(__dirname, '../image-in'), imageFile.name);
+        } catch (err) {
             console.log('error while saving file, sending status 500');
             res.status(500).send(err);
-        });
+        }
 
         // call cutting service
         console.log('calling cutting service to cut the image');
-        let rowsCols = await CutterService.cutImage(imageFile.name).catch((err) => {
+        let rowCols = [];
+        try {
+            rowsCols = await CutterService.cutImage(imageFile.name);
+        } catch (err) {
             console.log('error while cutting the image');
             res.status(500).send(err);
-        });
+        }
+
 
         // build emoji string
         console.log('calling string builder service to get emoji string');
@@ -51,18 +52,13 @@ module.exports = (router) => {
 
         // delete image-in and image-out
         console.log('deleting image-in and image-out files');
-        fs.unlink(path.join(__dirname, `../image-in/${imageFile.name}`), (err) => {
-            if (err) {
-                console.log(err);
-                res.status(500).send(err);
-            }
-        });
-        rimraf(path.join(__dirname, `../image-out/${imageFile.name}`), (err) => {
-            if (err) {
-                console.log(err);
-                res.status(500).send(err);
-            }
-        });
+        try {
+            await fileManager.removeFile(path.join(__dirname, '../image-in'), imageFile.name);
+            await fileManager.removeDirectory(path.join(__dirname, `../image-out/${imageFile.name}`));
+        } catch (err) {
+            console.log(err);
+            res.status(500).send(err);
+        }
 
         // send back response
         console.log('cutter completed successfully, sending back file name');
