@@ -1,11 +1,11 @@
 import React from 'react';
 
-const NavBar = () => {
+const Footer = () => {
     return (
         <div>
-            Hello Navbar component
+            Hello footer component
         </div>
     );
 };
 
-export default NavBar;
+export default Footer;

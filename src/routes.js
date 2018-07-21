@@ -1,9 +1,9 @@
-import Cutter from './containers/Cutter';
+import Home from './containers/Home';
 
 const routes = [
     {
         path: "/",
-        component: Cutter,
+        component: Home,
         exact: true
     }
 ];
