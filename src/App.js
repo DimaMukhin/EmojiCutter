@@ -7,12 +7,18 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-      <div>
+      <div style={styles.appContainer}>
         <Switch>
           {routes.map((route, i) => <Route key={i} {...route} />)}
         </Switch>
       </div>
     );
+  }
+}
+
+const styles = {
+  appContainer: {
+    height: '100%'
   }
 }
 
