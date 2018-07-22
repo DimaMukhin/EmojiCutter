@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import emojiCutterClient from '../services/emoji-cutter-client';
+import FileUploadButton from '../components/FileUploadButton';
 
 class Cutter extends Component {
     state = {
@@ -15,7 +16,7 @@ class Cutter extends Component {
     fileUploadHandler = () => {
         if (!this.state.selectedFile)
             return;
-        
+
         emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.updateUploadProgressHandler)
             .then((res) => {
                 this.setState({ largeEmojiFileName: res.data.fileName });
@@ -39,14 +40,26 @@ class Cutter extends Component {
     }
 
     render() {
+        const uploadFileLabel = this.state.selectedFile ? this.state.selectedFile.name : 'Select file';
+
         return (
-            <div>
-                <h1>Upload image Here</h1>
-                <input type="file" onChange={this.fileSelectedHandler} name="upfile" value="" />
+            <div style={styles.cutterContainer}>
+                <h1 style={styles.cutterHeading}>Upload image Here</h1>
+                <input type="file" onChange={this.fileSelectedHandler} name="upfile" value="" style={{ display: 'none' }} />
+                <FileUploadButton onFileSelected={this.fileSelectedHandler} buttonLabel={uploadFileLabel} />
                 <button onClick={this.fileUploadHandler}>Upload</button>
                 <button onClick={this.fileDownloadHandler}>Download</button>
             </div>
         );
+    }
+}
+
+const styles = {
+    cutterContainer: {
+        textAlign: 'center',
+    },
+    cutterHeading: {
+        textAlign: 'center'
     }
 }
 

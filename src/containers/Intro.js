@@ -46,7 +46,7 @@ const styles = {
         justifyContent: 'center',
         height: 300,
         backgroundColor: '#aaaaaa',
-        border: '1px solid black'
+        outline: '1px solid black'
     }
 }
 
