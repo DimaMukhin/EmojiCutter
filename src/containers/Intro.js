@@ -45,7 +45,8 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         height: 300,
-        backgroundColor: '#aaaaaa'
+        backgroundColor: '#aaaaaa',
+        border: '1px solid black'
     }
 }
 
