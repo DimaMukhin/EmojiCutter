@@ -45,7 +45,7 @@ class Cutter extends Component {
 
         return (
             <div style={styles.cutterContainer}>
-                <h1 style={styles.cutterHeading}>Upload image Here</h1>
+                <h1 style={styles.cutterHeading}>Create HUGE Emoji</h1>
                 <div style={styles.cutterBody}>
                     <div style={styles.cutterBodyLeft}>
                         <CircleSpace style={styles.circleStepStyle}>
@@ -80,7 +80,6 @@ const styles = {
         gridTemplateColumns: '1fr 1fr 1fr',
     },
     cutterBodyLeft: {
-        height: '80%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
