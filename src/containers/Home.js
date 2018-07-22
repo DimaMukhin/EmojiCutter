@@ -55,8 +55,8 @@ const styles = {
         maxWidth: 1000,
     },
     cutterWrapper: {
-        minHeight: '500px',
         paddingTop: '20px',
+        paddingBottom: '20px',
         borderBottom: '1px solid #eeeeee'
     },
     uploadInstWrapper: {

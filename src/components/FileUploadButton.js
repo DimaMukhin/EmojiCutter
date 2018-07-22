@@ -14,7 +14,8 @@ const FileUploadButton = (props) => {
                         basic: true,
                         content: props.buttonLabel ? props.buttonLabel : 'Select file'
                     }}
-                    labelPosition="right" />
+                    labelPosition="right"
+                    onClick={() => console.log('test')} />
                 <input
                     hidden
                     id="upload"

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import emojiCutterClient from '../services/emoji-cutter-client';
 import FileUploadButton from '../components/FileUploadButton';
+import CircleSpace from '../components/CircleSpace';
 
 class Cutter extends Component {
     state = {
@@ -45,10 +46,23 @@ class Cutter extends Component {
         return (
             <div style={styles.cutterContainer}>
                 <h1 style={styles.cutterHeading}>Upload image Here</h1>
-                <input type="file" onChange={this.fileSelectedHandler} name="upfile" value="" style={{ display: 'none' }} />
-                <FileUploadButton onFileSelected={this.fileSelectedHandler} buttonLabel={uploadFileLabel} />
-                <button onClick={this.fileUploadHandler}>Upload</button>
-                <button onClick={this.fileDownloadHandler}>Download</button>
+                <div style={styles.cutterBody}>
+                    <div style={styles.cutterBodyLeft}>
+                        <CircleSpace style={styles.circleStepStyle}>
+                            <h1>1</h1>
+                        </CircleSpace>
+                    </div>
+                    <div>
+                        <input type="file" onChange={this.fileSelectedHandler} name="upfile" value="" style={{ display: 'none' }} />
+                        <FileUploadButton onFileSelected={this.fileSelectedHandler} buttonLabel={uploadFileLabel} />
+                        <button onClick={this.fileUploadHandler}>Upload</button>
+                        <button onClick={this.fileDownloadHandler}>Download</button>
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
             </div>
         );
     }
@@ -60,6 +74,22 @@ const styles = {
     },
     cutterHeading: {
         textAlign: 'center'
+    },
+    cutterBody: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr',
+    },
+    cutterBodyLeft: {
+        height: '80%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    circleStepStyle: {
+        width: 100,
+        height: 100,
+        color: 'white',
+        backgroundColor: '#9bc1ff'
     }
 }
 
