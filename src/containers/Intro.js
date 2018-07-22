@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
+import introGif from '../res/intro.gif';
+
 class Intro extends Component {
     render() {
         return (
             <div style={styles.introContainer}>
-                <h1 style={{margin: 0}}>Emoji Cutter Alpha</h1>
+                <h1 style={styles.introTitle}>Emoji Cutter Alpha</h1>
                 <div style={styles.introBodyContainer}>
                     <div style={styles.introDescriptionContainer}>
                         <h2>Post HUGE Emojis on Slack</h2>
@@ -12,7 +14,7 @@ class Intro extends Component {
                         <h2>Post HUGE Emojis on Slack</h2>
                     </div>
                     <div style={styles.introGifContainer}>
-                        <h3>GIF</h3>
+                        <img src={introGif} alt="GIF" />
                     </div>
                 </div>
             </div>
@@ -23,7 +25,11 @@ class Intro extends Component {
 const styles = {
     introContainer: {
         textAlign: 'center',
-        height: '100%'
+        height: '100%',
+    },
+    introTitle: {
+        margin: 0,
+        paddingTop: '20px',
     },
     introBodyContainer: {
         height: '80%',

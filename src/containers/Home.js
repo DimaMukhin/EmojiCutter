@@ -11,19 +11,29 @@ class Home extends Component {
         return (
             <div style={styles.homeContainer}>
                 <div style={styles.introWrapper}>
-                    <Intro />
+                    <div style={styles.sectionContainer}>
+                        <Intro />
+                    </div>
                 </div>
                 <div style={styles.cutterWrapper}>
-                    <Cutter />                    
+                    <div style={styles.sectionContainer}>
+                        <Cutter />
+                    </div>
                 </div>
                 <div style={styles.uploadInstWrapper}>
-                    <UploadInst />
+                    <div style={styles.sectionContainer}>
+                        <UploadInst />
+                    </div>
                 </div>
                 <div style={styles.emojiStringWrapper}>
-                    <EmojiString />
+                    <div style={styles.sectionContainer}>
+                        <EmojiString />
+                    </div>
                 </div>
                 <div style={styles.footerWrapper}>
-                    <Footer />
+                    <div style={styles.sectionContainer}>
+                        <Footer />
+                    </div>
                 </div>
             </div>
         );
@@ -32,37 +42,30 @@ class Home extends Component {
 
 const styles = {
     homeContainer: {
-        color: '#777777',
+        height: '100%',
+    },
+    introWrapper: {
+        height: '100%',
+        background: 'linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%)',
+        borderBottom: '1px solid #eeeeee'
+    },
+    sectionContainer: {
         margin: '0 auto',
         height: '100%',
-        maxWidth: 1000
-    },
-    introWrapper: {        
-        height: '100%',
-        margin: '0 -9999rem',
-        padding: '0.25rem 9999rem',
-        backgroundColor: '#443642'
+        maxWidth: 1000,
     },
     cutterWrapper: {
-        margin: '0 -9999rem',
-        padding: '0.25rem 9999rem',
-        backgroundColor: '#e6186d'
+
     },
     uploadInstWrapper: {
-        margin: '0 -9999rem',
-        padding: '0.25rem 9999rem',
-        backgroundColor: '#edb625'
+
     },
     emojiStringWrapper: {
-        margin: '0 -9999rem',
-        padding: '0.25rem 9999rem',
-        backgroundColor: '#49c4a1'
+
     },
     footerWrapper: {
-        margin: '0 -9999rem',
-        padding: '0.25rem 9999rem',
-        backgroundColor: '#81d2e0'
-    }
+
+    },
 }
 
 export default Home;
