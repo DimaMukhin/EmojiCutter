@@ -6,7 +6,7 @@ class EmojiString extends Component {
     render() {
         return (
             <div style={styles.emojiStringContainer}>
-                <h1 style={styles.emojiStringHeading}>Upload Emoji to Slack</h1>
+                <h1 style={styles.emojiStringHeading}>Use the Emoji</h1>
                 <div style={styles.emojiStringBody}>
                     <div style={styles.emojiStringBodyLeft}>
                         <CircleSpace style={styles.circleStepStyle}>

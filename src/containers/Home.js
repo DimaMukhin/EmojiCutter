@@ -57,16 +57,22 @@ const styles = {
     cutterWrapper: {
         paddingTop: '20px',
         paddingBottom: '20px',
-        borderBottom: '1px solid #eeeeee'
+        borderBottom: '8px solid #eeeeee'
     },
     uploadInstWrapper: {
-
+        paddingTop: '20px',
+        paddingBottom: '20px',
+        borderBottom: '8px solid #eeeeee'
     },
     emojiStringWrapper: {
-
+        paddingTop: '20px',
+        paddingBottom: '20px',
+        borderBottom: '1px solid #eeeeee'
     },
     footerWrapper: {
-
+        paddingTop: '20px',
+        paddingBottom: '20px',
+        background: 'linear-gradient(to top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%)',
     },
 }
 
