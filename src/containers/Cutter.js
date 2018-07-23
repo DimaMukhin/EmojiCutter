@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import emojiCutterClient from '../services/emoji-cutter-client';
-import FileUploadButton from '../components/FileUploadButton';
+import FileSelectButton from '../components/FileSelectButton';
 import CircleSpace from '../components/CircleSpace';
 
 class Cutter extends Component {
@@ -54,7 +54,7 @@ class Cutter extends Component {
                     </div>
                     <div>
                         <input type="file" onChange={this.fileSelectedHandler} name="upfile" value="" style={{ display: 'none' }} />
-                        <FileUploadButton onFileSelected={this.fileSelectedHandler} buttonLabel={uploadFileLabel} />
+                        <FileSelectButton onFileSelected={this.fileSelectedHandler} buttonLabel={uploadFileLabel} />
                         <button onClick={this.fileUploadHandler}>Upload</button>
                         <button onClick={this.fileDownloadHandler}>Download</button>
                     </div>
