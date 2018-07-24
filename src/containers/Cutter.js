@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Input, Button, Progress } from 'semantic-ui-react';
 
 import emojiCutterClient from '../services/emoji-cutter-client';
 import FileSelectButton from '../components/FileSelectButton';
@@ -8,6 +9,7 @@ class Cutter extends Component {
     state = {
         selectedFile: undefined,
         largeEmojiFileName: undefined,
+        fileUploadPercent: 0,
     }
 
     fileSelectedHandler = event => {
@@ -30,7 +32,8 @@ class Cutter extends Component {
         if (!progressEvent)
             return;
 
-        console.log(progressEvent.loaded / progressEvent.total);
+        console.log(Math.round(progressEvent.loaded / progressEvent.total * 100));
+        this.setState({ fileUploadPercent: Math.round(progressEvent.loaded / progressEvent.total * 100) });
     }
 
     fileDownloadHandler = () => {
@@ -52,17 +55,34 @@ class Cutter extends Component {
                             <h1>1</h1>
                         </CircleSpace>
                     </div>
-                    <div>
-                        <input type="file" onChange={this.fileSelectedHandler} name="upfile" value="" style={{ display: 'none' }} />
+                    <div style={styles.cutterBodyCenter}>
+                        <h3>Select a file</h3>
                         <FileSelectButton onFileSelected={this.fileSelectedHandler} buttonLabel={uploadFileLabel} />
-                        <button onClick={this.fileUploadHandler}>Upload</button>
-                        <button onClick={this.fileDownloadHandler}>Download</button>
-                    </div>
-                    <div>
+                        <h3>Name your emoji</h3>
+                        <Input fluid placeholder='my-huge-emoji' width={'auto'} />
+                        <div style={styles.genDownButtonsContainer}>
+                            <div>
+                                <h3>Generate emoji</h3>
+                                <Button onClick={this.fileUploadHandler}>Generate</Button>
+                            </div>
+                            <div>
+                                <h3>Download emoji</h3>
+                                <Button onClick={this.fileDownloadHandler}>Download</Button>
+                            </div>
+                        </div>
+                        {
+                            this.state.fileUploadPercent ? 
+                            <div style={styles.progressBarContainer}>
+                                <Progress percent={this.state.fileUploadPercent} indicating />
+                            </div> :
+                            undefined
+                        }
                         
                     </div>
+                    <div>
+                        {/* right side */}
+                    </div>
                 </div>
-
             </div>
         );
     }
@@ -79,6 +99,9 @@ const styles = {
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr',
     },
+    cutterBodyCenter: {
+        textAlign: 'left'
+    },
     cutterBodyLeft: {
         display: 'flex',
         alignItems: 'center',
@@ -89,7 +112,15 @@ const styles = {
         height: 100,
         color: 'white',
         backgroundColor: '#9bc1ff'
-    }
+    },
+    genDownButtonsContainer: {
+        paddingTop: '20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    progressBarContainer: {
+        paddingTop: '20px',
+    },
 }
 
 export default Cutter;
