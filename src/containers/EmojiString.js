@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Segment, Button, Icon } from 'semantic-ui-react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import CircleSpace from '../components/CircleSpace';
 
@@ -14,7 +17,21 @@ class EmojiString extends Component {
                         </CircleSpace>
                     </div>
                     <div>
+                        <Segment>
+                            <div style={styles.copyToClipboardButton}>
+                                <CopyToClipboard text={this.props.emojiString}>
+                                    <Button floated='right'>
+                                        <Button.Content visible>
+                                            <Icon name='clipboard' />
+                                        </Button.Content>
+                                    </Button>
+                                </CopyToClipboard>
+                            </div>
 
+                            <div style={styles.emojiStringSegment}>
+                                { this.props.emojiString }
+                            </div>
+                        </Segment>
                     </div>
                     <div>
 
@@ -46,7 +63,21 @@ const styles = {
         height: 100,
         color: 'white',
         backgroundColor: '#9bc1ff'
+    },
+    emojiStringSegment: {
+        minHeight: 60,
+        maxHeight: 200,        
+        overflow: 'auto',
+    },
+    copyToClipboardButton: {
+        position: 'absolute',
+        right: 30,
+        bottom: 30
     }
 }
 
-export default EmojiString;
+const mapStateToProps = state => ({
+    emojiString: state.emoji.emojiString
+});
+
+export default connect(mapStateToProps, null)(EmojiString);

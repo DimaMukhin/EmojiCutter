@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Input, Button, Progress } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 import emojiCutterClient from '../services/emoji-cutter-client';
 import FileSelectButton from '../components/FileSelectButton';
 import CircleSpace from '../components/CircleSpace';
+import { setEmojiString } from '../actions/emojiActions';
 
 class Cutter extends Component {
     state = {
@@ -22,6 +24,7 @@ class Cutter extends Component {
 
         emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.updateUploadProgressHandler)
             .then((res) => {
+                this.props.setEmojiString(res.data.emojiString);
                 this.setState({ largeEmojiFileName: res.data.fileName });
             }).catch((err) => {
                 // TODO: handle cutting rejection
@@ -123,4 +126,8 @@ const styles = {
     },
 }
 
-export default Cutter;
+const mapStateToProps = state => ({
+    // message: state.message.message
+});
+
+export default connect(mapStateToProps, { setEmojiString })(Cutter);

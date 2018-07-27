@@ -1,0 +1,1 @@
+export const SET_EMOJI_STRING = 'SET_EMOJI_STRING';
