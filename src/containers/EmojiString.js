@@ -10,6 +10,10 @@ class EmojiString extends Component {
         return (
             <div style={styles.emojiStringContainer}>
                 <h1 style={styles.emojiStringHeading}>Use the Emoji</h1>
+                <ul style={styles.topInstructionsList}>
+                    <li><h4>Emoji string will appear after generating an emoji</h4></li>
+                    <li><h4>Copy and paste the text below to a slack chat after uploading the emoji</h4></li>
+                </ul>
                 <div style={styles.emojiStringBody}>
                     <div style={styles.emojiStringBodyLeft}>
                         <CircleSpace style={styles.circleStepStyle}>
@@ -73,6 +77,9 @@ const styles = {
         position: 'absolute',
         right: 30,
         bottom: 30
+    },
+    topInstructionsList: {
+        listStyleType: 'none'
     }
 }
 
