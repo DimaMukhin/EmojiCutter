@@ -7,7 +7,7 @@ const FileSelectButton = (props) => {
         <div>
             <Label width="4" as="label" htmlFor="file" size="big" >
                 <div style={styles.button}>
-                    <Icon name="file" style={styles.label}/>
+                    <Icon name="file" />
                     {props.buttonLabel ? props.buttonLabel : 'Select file'}
                 </div>
             </Label>

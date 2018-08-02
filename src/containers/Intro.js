@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Icon } from 'semantic-ui-react';
 
 import introGif from '../res/intro.gif';
+import CircleSpace from '../components/CircleSpace';
 
 class Intro extends Component {
     render() {
@@ -10,12 +12,15 @@ class Intro extends Component {
                 <div style={styles.introBodyContainer}>
                     <div style={styles.introDescriptionContainer}>
                         <h2>Post HUGE Emojis on Slack</h2>
-                        <h2>Post HUGE Emojis on Slack</h2>
-                        <h2>Post HUGE Emojis on Slack</h2>
+                        <h2>Share with friends</h2>
+                        <h2>Profit!</h2>
                     </div>
                     <div style={styles.introGifContainer}>
                         <img src={introGif} alt="GIF" />
                     </div>
+                </div>
+                <div>
+                    <Icon name="arrow alternate circle down" size={'huge'}/>
                 </div>
             </div>
         );
@@ -38,7 +43,7 @@ const styles = {
         alignItems: 'center',
     },
     introDescriptionContainer: {
-        
+
     },
     introGifContainer: {
         display: 'flex',
