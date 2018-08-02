@@ -1,6 +1,6 @@
 {
   "name": "emoji-cutter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "archiver": "^2.1.1",
