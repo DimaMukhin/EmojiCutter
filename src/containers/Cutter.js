@@ -12,6 +12,7 @@ class Cutter extends Component {
         selectedFile: undefined,
         largeEmojiFileName: undefined,
         fileUploadPercent: 0,
+        emojiName: '',
     }
 
     fileSelectedHandler = event => {
@@ -22,7 +23,7 @@ class Cutter extends Component {
         if (!this.state.selectedFile)
             return;
 
-        emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.updateUploadProgressHandler)
+        emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.state.emojiName, this.updateUploadProgressHandler)
             .then((res) => {
                 this.props.setEmojiString(res.data.emojiString);
                 this.setState({ largeEmojiFileName: res.data.fileName });
@@ -62,7 +63,12 @@ class Cutter extends Component {
                         <h3>Select a file</h3>
                         <FileSelectButton onFileSelected={this.fileSelectedHandler} buttonLabel={uploadFileLabel} />
                         <h3>Name your emoji</h3>
-                        <Input fluid placeholder='my-huge-emoji' width={'auto'} />
+                        <Input 
+                            fluid 
+                            placeholder='my-huge-emoji' 
+                            width={'auto'} 
+                            value={this.state.emojiName}
+                            onChange={(e) => this.setState({ emojiName: e.target.value })}/>
                         <div style={styles.genDownButtonsContainer}>
                             <div>
                                 <h3>Generate emoji</h3>

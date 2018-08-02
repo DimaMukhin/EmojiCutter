@@ -16,13 +16,18 @@ module.exports = (router) => {
      * zips all the pieces together and places the zip filder in /zip-out
      */
     router.post('/emoji', async (req, res) => {
+        let emojiName = req.query.name;
+        if (!emojiName || stringBuilder.testEmojiName(req.query.name.toLowerCase()))
+            res.status(500).send('invalid emoji name');
+
         // get and save file
         console.log('POST /emoji');
         console.log('saving image in storage');
         let imageFile = req.files.upfile;
+        emojiName = emojiName.toLowerCase() + '.' + stringBuilder.getExtension(imageFile.name);
 
         try {
-            await fileManager.moveFile(imageFile, path.join(__dirname, '../image-in'), imageFile.name);
+            await fileManager.moveFile(imageFile, path.join(__dirname, '../image-in'), emojiName);
         } catch (err) {
             console.log('error while saving file, sending status 500');
             res.status(500).send(err);
@@ -32,7 +37,7 @@ module.exports = (router) => {
         console.log('calling cutting service to cut the image');
         let rowCols = [];
         try {
-            rowsCols = await CutterService.cutImage(imageFile.name);
+            rowsCols = await CutterService.cutImage(emojiName);
         } catch (err) {
             console.log('error while cutting the image');
             res.status(500).send(err);
@@ -41,11 +46,11 @@ module.exports = (router) => {
 
         // build emoji string
         console.log('calling string builder service to get emoji string');
-        let emojiString = stringBuilder.buildEmojiString(rowsCols[0], rowsCols[1], imageFile.name);
+        let emojiString = stringBuilder.buildEmojiString(rowsCols[0], rowsCols[1], emojiName);
 
         // zip image
         console.log('calling zipper service to zip the emojis together');
-        await ZipperService.zipImage(imageFile.name).catch((err) => {
+        await ZipperService.zipImage(emojiName).catch((err) => {
             console.log('error while zipping the large emoji');
             res.status(500).send(err);
         });
@@ -53,8 +58,8 @@ module.exports = (router) => {
         // delete image-in and image-out
         console.log('deleting image-in and image-out files');
         try {
-            await fileManager.removeFile(path.join(__dirname, '../image-in'), imageFile.name);
-            await fileManager.removeDirectory(path.join(__dirname, `../image-out/${imageFile.name}`));
+            await fileManager.removeFile(path.join(__dirname, '../image-in'), emojiName);
+            await fileManager.removeDirectory(path.join(__dirname, `../image-out/${emojiName}`));
         } catch (err) {
             console.log(err);
             res.status(500).send(err);
@@ -63,7 +68,7 @@ module.exports = (router) => {
         // send back response
         console.log('cutter completed successfully, sending back file name');
         res.status(200).send({
-            fileName: imageFile.name,
+            fileName: emojiName,
             emojiString: emojiString,
         });
     });

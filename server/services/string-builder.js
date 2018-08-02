@@ -32,4 +32,25 @@ stringBuilder.stripExtension = (fileName) => {
     return fileName.substring(0, fileName.indexOf('.'));
 }
 
+/**
+ * get the extension of a file
+ * example, return .png for filename.png
+ * @param {string} fileName 
+ */
+stringBuilder.getExtension = (fileName) => {
+    return fileName.split('.').pop();
+}
+
+/**
+ * test if emoji name is valid
+ * emoji names should only consist of:
+ *  - lower case letters
+ *  - numbers
+ *  - dashes ("-")
+ * @param {string} emojiName 
+ */
+stringBuilder.testEmojiName = (emojiName) => {
+    return RegExp('/^[0-9a-z\-]+$/').test(emojiName);
+}
+
 module.exports = stringBuilder;
