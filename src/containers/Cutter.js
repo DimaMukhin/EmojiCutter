@@ -13,6 +13,7 @@ class Cutter extends Component {
         largeEmojiFileName: undefined,
         fileUploadPercent: 0,
         emojiName: '',
+        downloadReady: false,
     }
 
     fileSelectedHandler = event => {
@@ -23,10 +24,11 @@ class Cutter extends Component {
         if (!this.state.selectedFile)
             return;
 
+        this.setState({ downloadReady: false });
         emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.state.emojiName, this.updateUploadProgressHandler)
             .then((res) => {
                 this.props.setEmojiString(res.data.emojiString);
-                this.setState({ largeEmojiFileName: res.data.fileName });
+                this.setState({ largeEmojiFileName: res.data.fileName, downloadReady: true });
             }).catch((err) => {
                 // TODO: handle cutting rejection
             });
@@ -76,13 +78,18 @@ class Cutter extends Component {
                             </div>
                             <div>
                                 <h3>Download emoji</h3>
-                                <Button onClick={this.fileDownloadHandler}>Download</Button>
+                                <Button onClick={this.fileDownloadHandler} disabled={!this.state.downloadReady}>Download</Button>
                             </div>
                         </div>
                         {
                             this.state.fileUploadPercent ? 
                             <div style={styles.progressBarContainer}>
                                 <Progress percent={this.state.fileUploadPercent} indicating />
+                                {
+                                    !this.state.downloadReady && this.state.fileUploadPercent == 100 ?
+                                    <p>Generating Emoji...</p> :
+                                    undefined
+                                }
                             </div> :
                             undefined
                         }
@@ -129,6 +136,7 @@ const styles = {
     },
     progressBarContainer: {
         paddingTop: '20px',
+        textAlign: 'center'
     },
 }
 
