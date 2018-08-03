@@ -1,6 +1,8 @@
 const Jimp = require('jimp');
 const path = require('path');
 
+const ServerError = require('../models/ServerError');
+
 const cutter = {};
 const ICON_SIZE = 128;
 
@@ -20,7 +22,11 @@ cutter.cutImage = (imageName) => {
 
             for (let row = 0; row * ICON_SIZE < imgHeight; row++) {
                 for (let col = 0; col * ICON_SIZE < imgWidth; col++) {
-                    await cutter.cutEmojiPieceFromImage(image, row, col, imageName);
+                    try {
+                        await cutter.cutEmojiPieceFromImage(image, row, col, imageName);
+                    } catch (err) {
+                        reject(err);
+                    }
 
                     console.log('emoji writing (row, col):', row, col);
                     if (cutter.isLastEmojiPieceOfImage(row, col, imgWidth, imgHeight)) {
@@ -31,7 +37,10 @@ cutter.cutImage = (imageName) => {
             }
         }).catch((err) => {
             console.log('could not read file', err);
-            reject(err);
+            if (err instanceof ServerError)
+                reject(err);
+            else
+                reject(new ServerError(5, 'Internal Server Error, could not read file', err));
         });
     });
 }
@@ -45,7 +54,7 @@ cutter.readImageFromStorage = (imageName) => {
     return Jimp.read(path.join(__dirname, `../image-in/${imageName}`)).then((image) => {
         if (!image) {
             console.log('image format not supported');
-            return Promise.reject();
+            return Promise.reject(new ServerError(4, 'file format not supported'));
         }
 
         return image;
@@ -68,7 +77,7 @@ cutter.cutEmojiPieceFromImage = (image, row, col, imageName) => {
             .write(path.join(__dirname, `../image-out/${imageName}/${row}-${col}-${imageName}`), (err) => {
                 if (err) {
                     console.log('failed writing emoji piece to disk');
-                    reject(err);
+                    reject(new ServerError(6, 'Internal Server Erorr, failed to write emoji piece to disk', err));
                     return;
                 }
                 resolve();

@@ -3,6 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const rimraf = require('rimraf');
 
+const ServerError = require('../models/ServerError');
+
 const fileManager = {};
 
 fileManager.moveFile = (file, dir, newFileName) => {
@@ -15,7 +17,7 @@ fileManager.removeFile = (dir, fileName) => {
     return new Promise((resolve, reject) => {
         fs.unlink(path.join(dir, fileName), (err) => {
             if (err) {
-                reject(err);
+                reject(new ServerError(7, 'Internal Server Error, could not remove file from disk', err));
             }
             resolve();
         });
@@ -26,11 +28,23 @@ fileManager.removeDirectory = (dir) => {
     return new Promise((resolve, reject) => {
         rimraf(dir, (err) => {
             if (err) {
-                reject(err);
+                reject(new ServerError(8, 'Internal Server Error, could not remove directory from disk', err));
             }
             resolve();
         });
     });
+}
+
+fileManager.cleanEmojiFiles = async (emojiName) => {
+
+    console.log('deleting image-in and image-out files (cleanup)');
+    try {
+        await fileManager.removeFile(path.join(__dirname, '../image-in'), emojiName);
+        await fileManager.removeDirectory(path.join(__dirname, `../image-out/${emojiName}`));
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
 }
 
 module.exports = fileManager;

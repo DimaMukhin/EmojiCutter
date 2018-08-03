@@ -2,6 +2,8 @@ const fs = require('fs');
 const archiver = require('archiver');
 const path = require('path');
 
+const ServerError = require('../models/ServerError');
+
 const zipper = {};
 
 /**
@@ -23,7 +25,7 @@ zipper.zipImage = (imageName) => {
 
         archive.on('error', function (err) {
             console.log('error while zipping', err);
-            reject();
+            reject(new ServerError(9, 'Internal Server Error, could not zip directory', err));
             throw err;
         });
 
