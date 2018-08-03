@@ -16,7 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // setting file upload
-app.use(fileUpload());
+app.use(fileUpload({
+  limits: { fileSize: 256 * 1024 },
+}));
 
 // enabling cors 
 app.use((req, res, next) => {
