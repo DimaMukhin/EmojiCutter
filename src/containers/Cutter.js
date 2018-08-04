@@ -7,6 +7,7 @@ import FileSelectButton from '../components/FileSelectButton';
 import CircleSpace from '../components/CircleSpace';
 import { setEmojiString } from '../actions/emojiActions';
 import ServerErrorHelper from '../services/ServerErrorHelper';
+import StringHelper from '../services/StringHelper';
 
 class Cutter extends Component {
     state = {
@@ -26,7 +27,7 @@ class Cutter extends Component {
         if (!this.state.selectedFile)
             return;
 
-        this.setState({ downloadReady: false });
+        this.setState({ downloadReady: false, errorMessage: '' });
         emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.state.emojiName, this.updateUploadProgressHandler)
             .then((res) => {
                 this.props.setEmojiString(res.data.emojiString);
@@ -56,7 +57,7 @@ class Cutter extends Component {
     }
 
     render() {
-        const uploadFileLabel = this.state.selectedFile ? this.state.selectedFile.name : 'Select file';
+        const uploadFileLabel = this.state.selectedFile ? StringHelper.truncate(this.state.selectedFile.name, 20) : 'Select file';
 
         return (
             <div style={styles.cutterContainer}>
