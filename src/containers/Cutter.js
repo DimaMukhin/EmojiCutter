@@ -6,6 +6,7 @@ import emojiCutterClient from '../services/emoji-cutter-client';
 import FileSelectButton from '../components/FileSelectButton';
 import CircleSpace from '../components/CircleSpace';
 import { setEmojiString } from '../actions/emojiActions';
+import ServerErrorHelper from '../services/ServerErrorHelper';
 
 class Cutter extends Component {
     state = {
@@ -14,6 +15,7 @@ class Cutter extends Component {
         fileUploadPercent: 0,
         emojiName: '',
         downloadReady: false,
+        errorMessage: '',
     }
 
     fileSelectedHandler = event => {
@@ -30,7 +32,11 @@ class Cutter extends Component {
                 this.props.setEmojiString(res.data.emojiString);
                 this.setState({ largeEmojiFileName: res.data.fileName, downloadReady: true });
             }).catch((err) => {
-                // TODO: handle cutting rejection
+                let errorMessage = 'Unkown server error, please try again later';
+                if (err && err.response && err.response.data && err.response.data.code) {
+                    errorMessage = ServerErrorHelper.getErrorMessage(err.response.data.code);
+                }
+                this.setState({ errorMessage });
             });
     }
 
@@ -55,6 +61,7 @@ class Cutter extends Component {
         return (
             <div style={styles.cutterContainer}>
                 <h1 style={styles.cutterHeading}>Create HUGE Emoji</h1>
+                <p style={styles.errorMessage}>{this.state.errorMessage}</p>
                 <div style={styles.cutterBody}>
                     <div style={styles.cutterBodyLeft}>
                         <CircleSpace style={styles.circleStepStyle}>
@@ -73,11 +80,9 @@ class Cutter extends Component {
                             onChange={(e) => this.setState({ emojiName: e.target.value })}/>
                         <div style={styles.genDownButtonsContainer}>
                             <div>
-                                <h3>Generate emoji</h3>
-                                <Button onClick={this.fileUploadHandler}>Generate</Button>
+                                <Button onClick={this.fileUploadHandler} disabled={!this.state.selectedFile || !this.state.emojiName}>Generate</Button>
                             </div>
                             <div>
-                                <h3>Download emoji</h3>
                                 <Button onClick={this.fileDownloadHandler} disabled={!this.state.downloadReady}>Download</Button>
                             </div>
                         </div>
@@ -86,7 +91,7 @@ class Cutter extends Component {
                             <div style={styles.progressBarContainer}>
                                 <Progress percent={this.state.fileUploadPercent} indicating />
                                 {
-                                    !this.state.downloadReady && this.state.fileUploadPercent == 100 ?
+                                    !this.state.downloadReady && this.state.fileUploadPercent === 100 ?
                                     <p>Generating Emoji...</p> :
                                     undefined
                                 }
@@ -110,6 +115,9 @@ const styles = {
     },
     cutterHeading: {
         textAlign: 'center'
+    },
+    errorMessage: {
+        color: 'red'
     },
     cutterBody: {
         display: 'grid',
