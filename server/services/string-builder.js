@@ -47,10 +47,10 @@ stringBuilder.getExtension = (fileName) => {
  *  - lower case letters
  *  - numbers
  *  - dashes ("-")
- * @param {string} emojiName 
+ * @param {boolean} true if invalid, false otherwise 
  */
 stringBuilder.testEmojiName = (emojiName) => {
-    return RegExp('/^[0-9a-z\-]+$/').test(emojiName);
+    return RegExp('[^0-9a-z-]').test(emojiName);
 }
 
 module.exports = stringBuilder;
