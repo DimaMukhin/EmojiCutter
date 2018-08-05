@@ -12,37 +12,30 @@ const ICON_SIZE = 128;
  * image should be in image-in with the name <imageName>
  * @param {string} imageName the name of the image to cut
  */
-cutter.cutImage = (imageName) => {
-    return new Promise((resolve, reject) => {
-        console.log('reading image to cut');
-        cutter.readImageFromStorage(imageName).then(async (image) => {
-            console.log('image was read successfully');
-            let imgWidth = image.bitmap.width;
-            let imgHeight = image.bitmap.height;
+cutter.cutImage = async (imageName) => {
+    console.log('reading image to cut');
+    try {
+        console.log('image was read successfully');
+        let image = await cutter.readImageFromStorage(imageName);
+        let imgWidth = image.bitmap.width;
+        let imgHeight = image.bitmap.height;
 
-            for (let row = 0; row * ICON_SIZE < imgHeight; row++) {
-                for (let col = 0; col * ICON_SIZE < imgWidth; col++) {
-                    try {
-                        await cutter.cutEmojiPieceFromImage(image, row, col, imageName);
-                    } catch (err) {
-                        reject(err);
-                    }
-
-                    console.log('emoji writing (row, col):', row, col);
-                    if (cutter.isLastEmojiPieceOfImage(row, col, imgWidth, imgHeight)) {
-                        resolve([imgHeight / ICON_SIZE, imgWidth / ICON_SIZE]);
-                        return;
-                    }
-                }
+        let emojiPiecesCuttingPromisses = [];
+        for (let row = 0; row * ICON_SIZE < imgHeight; row++) {
+            for (let col = 0; col * ICON_SIZE < imgWidth; col++) {
+                emojiPiecesCuttingPromisses.push(cutter.cutEmojiPieceFromImage(image, row, col, imageName));
             }
-        }).catch((err) => {
-            console.log('could not read file', err);
-            if (err instanceof ServerError)
-                reject(err);
-            else
-                reject(new ServerError(5, 'Internal Server Error, could not read file', err));
-        });
-    });
+        }
+
+        await Promise.all(emojiPiecesCuttingPromisses);
+        return [imgHeight / ICON_SIZE, imgWidth / ICON_SIZE];
+    } catch (err) {
+        console.log('failed while cutting/reading image from storage', err);
+        if (err instanceof ServerError)
+            return err;
+        else
+            return new ServerError(5, 'Internal Server Error, could not read file', err);
+    }
 }
 
 /**
@@ -80,24 +73,10 @@ cutter.cutEmojiPieceFromImage = (image, row, col, imageName) => {
                     reject(new ServerError(6, 'Internal Server Erorr, failed to write emoji piece to disk', err));
                     return;
                 }
+                console.log('emoji writing (row, col):', row, col);
                 resolve();
             });
     });
-}
-
-/**
- * is [row, col] the last emoji sized piece of an image?
- * last emoji piece is botom right
- * @param {int} row the row of the emoji 
- * @param {int} col the column of the emoji 
- * @param {int} imgWidth the width of the image 
- * @param {int} imgHeight the height of the image 
- */
-cutter.isLastEmojiPieceOfImage = (row, col, imgWidth, imgHeight) => {
-    if (((row + 1) * ICON_SIZE) >= imgHeight && ((col + 1) * ICON_SIZE) >= imgWidth) {
-        return true;
-    }
-    return false;
 }
 
 module.exports = cutter;
