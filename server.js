@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const path = require('path');
+const RateLimit = require('express-rate-limit');
+
 
 const api = require('./server/api');
 
@@ -26,6 +28,18 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+// express-rate-limit
+app.enable('Heroku');
+
+let apiLimiter = new RateLimit({
+  windowMs: 1*30*1000, // 30 seconds
+  max: 1, // limit each IP to 1 requests per windowMs
+  delayMs: 0, // disable delaying - full speed until the max limit is reached
+  skipFailedRequests: true
+});
+
+app.use('/api/', apiLimiter); // only apply to /api/ requests
 
 // setting /api route as the default api route of the application
 app.use('/api', api);

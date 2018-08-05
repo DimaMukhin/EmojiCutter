@@ -28,6 +28,7 @@ class Cutter extends Component {
             return;
 
         this.setState({ downloadReady: false, errorMessage: '' });
+        this.props.setEmojiString('');
         emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.state.emojiName, this.updateUploadProgressHandler)
             .then((res) => {
                 this.props.setEmojiString(res.data.emojiString);
@@ -36,6 +37,8 @@ class Cutter extends Component {
                 let errorMessage = 'Unkown server error, please try again later';
                 if (err && err.response && err.response.data && err.response.data.code) {
                     errorMessage = ServerErrorHelper.getErrorMessage(err.response.data.code);
+                } else if (err && err.response && err.response.status === 429) {
+                    errorMessage = 'Only 1 request per 30 seconds is allowed';
                 }
                 this.setState({ errorMessage });
             });
@@ -45,7 +48,6 @@ class Cutter extends Component {
         if (!progressEvent)
             return;
 
-        console.log(Math.round(progressEvent.loaded / progressEvent.total * 100));
         this.setState({ fileUploadPercent: Math.round(progressEvent.loaded / progressEvent.total * 100) });
     }
 
@@ -92,7 +94,7 @@ class Cutter extends Component {
                             <div style={styles.progressBarContainer}>
                                 <Progress percent={this.state.fileUploadPercent} indicating />
                                 {
-                                    !this.state.downloadReady && this.state.fileUploadPercent === 100 ?
+                                    !this.state.downloadReady && this.state.fileUploadPercent === 100 && !this.state.errorMessage ?
                                     <p>Generating Emoji...</p> :
                                     undefined
                                 }
