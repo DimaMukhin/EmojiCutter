@@ -15,8 +15,8 @@ const ICON_SIZE = 128;
 cutter.cutImage = async (imageName) => {
     console.log('reading image to cut');
     try {
-        console.log('image was read successfully');
         let image = await cutter.readImageFromStorage(imageName);
+        console.log('image was read successfully');
         let imgWidth = image.bitmap.width;
         let imgHeight = image.bitmap.height;
 
@@ -32,9 +32,9 @@ cutter.cutImage = async (imageName) => {
     } catch (err) {
         console.log('failed while cutting/reading image from storage', err);
         if (err instanceof ServerError)
-            return err;
+            return Promise.reject(err);
         else
-            return new ServerError(5, 'Internal Server Error, could not read file', err);
+            return Promise.reject(new ServerError(5, 'Internal Server Error, could not read file', err));
     }
 }
 
@@ -43,15 +43,15 @@ cutter.cutImage = async (imageName) => {
  * image should be in /image-in
  * @param {string} imageName the name of the image to cut
  */
-cutter.readImageFromStorage = (imageName) => {
-    return Jimp.read(path.join(__dirname, `../image-in/${imageName}`)).then((image) => {
-        if (!image) {
-            console.log('image format not supported');
-            return Promise.reject(new ServerError(4, 'file format not supported'));
-        }
+cutter.readImageFromStorage = async (imageName) => {
+    let image = await Jimp.read(path.join(__dirname, `../image-in/${imageName}`));
 
-        return image;
-    });
+    if (!image) {
+        console.log('image format not supported');
+        return Promise.reject(new ServerError(4, 'file format not supported'));
+    }
+
+    return image;
 }
 
 /**
