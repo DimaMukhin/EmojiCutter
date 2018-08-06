@@ -6,8 +6,6 @@ const stringBuilder = require('../services/string-builder');
 const fileManager = require('../services/file-manager');
 const ServerError = require('../models/ServerError');
 
-const MAX_FILE_SIZE = 1024;
-
 module.exports = (router) => {
     /**
      * POST /emoji 
