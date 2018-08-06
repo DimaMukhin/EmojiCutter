@@ -92,7 +92,7 @@ class Cutter extends Component {
                         {
                             this.state.fileUploadPercent ? 
                             <div style={styles.progressBarContainer}>
-                                <Progress percent={this.state.fileUploadPercent} indicating />
+                                <Progress percent={this.state.fileUploadPercent} indicating success={this.state.downloadReady} />
                                 {
                                     !this.state.downloadReady && this.state.fileUploadPercent === 100 && !this.state.errorMessage ?
                                     <p>Generating Emoji...</p> :
