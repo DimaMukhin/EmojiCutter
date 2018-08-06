@@ -24,7 +24,7 @@ emojiCutterClient.cutImageToLargeEmoji = (imageFile, emojiName, uploadProgressHa
  * @param {string} largeEmojiFileName the name of the large emoji
  */
 emojiCutterClient.downloadEmojiInNewWindow = (largeEmojiFileName) => {
-    window.open(`/api/emoji/${largeEmojiFileName}`);
+    window.open(`/api/download/${largeEmojiFileName}`);
 }
 
 export default emojiCutterClient;

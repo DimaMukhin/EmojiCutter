@@ -39,7 +39,7 @@ let apiLimiter = new RateLimit({
   skipFailedRequests: true
 });
 
-app.use('/api/', apiLimiter); // only apply to /api/ requests
+app.use('/api/emoji', apiLimiter); // only apply to /api/emoji requests
 
 // setting /api route as the default api route of the application
 app.use('/api', api);

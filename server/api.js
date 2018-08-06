@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 
 // routes
 require('./routes/emoji')(router);
+require('./routes/download')(router);
 
 // development playground
 // require('./playground');
