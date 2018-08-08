@@ -1,7 +1,7 @@
 const serverErrorHelper = {};
 
 serverErrorHelper.getErrorMessage = (errorCode) => {
-    let errorMessage = 'Internal server error, please try again later';
+    let errorMessage = '';
 
     switch(errorCode) {
         case 1:
@@ -16,6 +16,8 @@ serverErrorHelper.getErrorMessage = (errorCode) => {
         case 10:
             errorMessage = 'maximum file size exceeded (maximum size: 500 kb)';
             break;
+        default:
+            errorMessage = 'Internal server error, please try again later';
     }
 
     return errorMessage;
