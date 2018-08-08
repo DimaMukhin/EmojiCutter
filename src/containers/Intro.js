@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Icon } from 'semantic-ui-react';
 
 import introGif from '../res/intro.gif';
-import CircleSpace from '../components/CircleSpace';
 
 class Intro extends Component {
     render() {
