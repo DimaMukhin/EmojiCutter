@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Progress } from 'semantic-ui-react';
+import { Input, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import emojiCutterClient from '../services/emoji-cutter-client';
@@ -8,6 +8,7 @@ import CircleSpace from '../components/CircleSpace';
 import { setEmojiString } from '../actions/emojiActions';
 import ServerErrorHelper from '../services/ServerErrorHelper';
 import StringHelper from '../services/StringHelper';
+import ProgressBar from '../components/ProgressBar';
 
 class Cutter extends Component {
     state = {
@@ -17,6 +18,7 @@ class Cutter extends Component {
         emojiName: '',
         downloadReady: false,
         errorMessage: '',
+        progressMessage: '',
     }
 
     fileSelectedHandler = event => {
@@ -60,6 +62,7 @@ class Cutter extends Component {
 
     render() {
         const uploadFileLabel = this.state.selectedFile ? StringHelper.truncate(this.state.selectedFile.name, 20) : 'Select file';
+        let progressMessage = !this.state.downloadReady && this.state.fileUploadPercent === 100 && !this.state.errorMessage ? 'Generating Emoji...' : '';
 
         return (
             <div style={styles.cutterContainer}>
@@ -75,12 +78,12 @@ class Cutter extends Component {
                         <h3>Select a file</h3>
                         <FileSelectButton onFileSelected={this.fileSelectedHandler} buttonLabel={uploadFileLabel} />
                         <h3>Name your emoji</h3>
-                        <Input 
-                            fluid 
-                            placeholder='my-huge-emoji' 
-                            width={'auto'} 
+                        <Input
+                            fluid
+                            placeholder='my-huge-emoji'
+                            width={'auto'}
                             value={this.state.emojiName}
-                            onChange={(e) => this.setState({ emojiName: e.target.value })}/>
+                            onChange={(e) => this.setState({ emojiName: e.target.value })} />
                         <div style={styles.genDownButtonsContainer}>
                             <div>
                                 <Button onClick={this.fileUploadHandler} disabled={!this.state.selectedFile || !this.state.emojiName}>Generate</Button>
@@ -91,17 +94,13 @@ class Cutter extends Component {
                         </div>
                         {
                             this.state.fileUploadPercent ? 
-                            <div style={styles.progressBarContainer}>
-                                <Progress percent={this.state.fileUploadPercent} indicating success={this.state.downloadReady} />
-                                {
-                                    !this.state.downloadReady && this.state.fileUploadPercent === 100 && !this.state.errorMessage ?
-                                    <p>Generating Emoji...</p> :
-                                    undefined
-                                }
-                            </div> :
-                            undefined
+                            <ProgressBar
+                                style={styles.progressBarContainer}
+                                percent={this.state.fileUploadPercent}
+                                success={this.state.downloadReady}>
+                                    <p>{progressMessage}</p>
+                            </ProgressBar> : null
                         }
-                        
                     </div>
                     <div>
                         {/* right side */}
