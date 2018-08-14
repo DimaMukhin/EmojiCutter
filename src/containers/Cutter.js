@@ -25,25 +25,26 @@ class Cutter extends Component {
         this.setState({ selectedFile: event.target.files[0] });
     }
 
-    fileUploadHandler = () => {
+    fileUploadHandler = async () => {
         if (!this.state.selectedFile)
             return;
 
         this.setState({ downloadReady: false, errorMessage: '' });
         this.props.setEmojiString('');
-        emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.state.emojiName, this.updateUploadProgressHandler)
-            .then((res) => {
-                this.props.setEmojiString(res.data.emojiString);
-                this.setState({ largeEmojiFileName: res.data.fileName, downloadReady: true });
-            }).catch((err) => {
-                let errorMessage = 'Unkown server error, please try again later';
-                if (err && err.response && err.response.data && err.response.data.code) {
-                    errorMessage = ServerErrorHelper.getErrorMessage(err.response.data.code);
-                } else if (err && err.response && err.response.status === 429) {
-                    errorMessage = 'Only 1 request per 30 seconds is allowed';
-                }
-                this.setState({ errorMessage });
-            });
+        try {
+            let res = await emojiCutterClient.cutImageToLargeEmoji(this.state.selectedFile, this.state.emojiName, this.updateUploadProgressHandler)
+            this.props.setEmojiString(res.data.emojiString);
+            this.setState({ largeEmojiFileName: res.data.fileName, downloadReady: true });
+        } catch (err) {
+            let errorMessage = 'Unkown server error, please try again later';
+            
+            if (err && err.response && err.response.data && err.response.data.code)
+                errorMessage = ServerErrorHelper.getErrorMessage(err.response.data.code);
+            else if (err && err.response && err.response.status === 429)
+                errorMessage = 'Only 1 request per 30 seconds is allowed';
+
+            this.setState({ errorMessage });
+        }
     }
 
     updateUploadProgressHandler = (progressEvent) => {
@@ -93,13 +94,13 @@ class Cutter extends Component {
                             </div>
                         </div>
                         {
-                            this.state.fileUploadPercent ? 
-                            <ProgressBar
-                                style={styles.progressBarContainer}
-                                percent={this.state.fileUploadPercent}
-                                success={this.state.downloadReady}>
+                            this.state.fileUploadPercent ?
+                                <ProgressBar
+                                    style={styles.progressBarContainer}
+                                    percent={this.state.fileUploadPercent}
+                                    success={this.state.downloadReady}>
                                     <p>{progressMessage}</p>
-                            </ProgressBar> : null
+                                </ProgressBar> : null
                         }
                     </div>
                     <div>
