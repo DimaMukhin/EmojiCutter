@@ -7,10 +7,9 @@ const ServerError = require('../models/ServerError');
 
 const fileManager = {};
 
-fileManager.moveFile = (file, dir, newFileName) => {
-    return file.mv(path.join(path.join(dir, newFileName))).then((err) => {
-        if (err) throw err;
-    });
+fileManager.moveFile = async (file, dir, newFileName) => {
+    let err = await  file.mv(path.join(path.join(dir, newFileName)));
+    if (err) throw err;
 }
 
 fileManager.removeFile = (dir, fileName) => {
