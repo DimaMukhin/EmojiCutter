@@ -1,4 +1,6 @@
 const express = require('express');
+const EmojiRoutes = require('./routes/emoji');
+const DownloadRoutes = require('./routes/download');
 
 const router = express.Router();
 
@@ -10,10 +12,7 @@ router.get('/', (req, res) => {
 });
 
 // routes
-require('./routes/emoji')(router);
-require('./routes/download')(router);
-
-// development playground
-// require('./playground');
+router.use('/emoji', EmojiRoutes);
+router.use('/download', DownloadRoutes);
 
 module.exports = router;
