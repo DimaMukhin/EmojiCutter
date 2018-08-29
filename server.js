@@ -3,8 +3,6 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const RateLimit = require('express-rate-limit');
-
-
 const api = require('./server/api');
 
 const app = express();
