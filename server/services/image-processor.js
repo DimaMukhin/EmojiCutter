@@ -13,7 +13,6 @@ imageProcessor.readImageFromStorage = async (imageName) => {
     let image = await Jimp.read(path.join(__dirname, `../image-in/${imageName}`));
 
     if (!image) {
-        console.log('image format not supported');
         return Promise.reject(new ServerError(4, 'file format not supported'));
     }
 
@@ -41,11 +40,9 @@ imageProcessor.cutEmojiPieceFromImage = (image, row, col, imageName) => {
             .crop(col * ICON_SIZE, row * ICON_SIZE, ICON_SIZE, ICON_SIZE)
             .write(path.join(__dirname, `../image-out/${imageName}/${row}-${col}-${imageName}`), (err) => {
                 if (err) {
-                    console.log('failed writing emoji piece to disk');
                     reject(new ServerError(6, 'Internal Server Erorr, failed to write emoji piece to disk', err));
                     return;
                 }
-                console.log('emoji writing (row, col):', row, col);
                 resolve();
             });
     });

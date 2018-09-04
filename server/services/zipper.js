@@ -13,18 +13,14 @@ const zipper = {};
  */
 zipper.zipImage = (imageName) => {
     return new Promise((resolve, reject) => {
-        console.log('creating writing stream');
         const output = fs.createWriteStream(path.join(__dirname, `../zip-out/${imageName}.zip`));
         let archive = archiver('zip');
 
         output.on('close', function () {
-            console.log(archive.pointer() + ' total bytes');
-            console.log('archiver has been finalized and the output file descriptor has closed.');
             resolve();
         });
 
         archive.on('error', function (err) {
-            console.log('error while zipping', err);
             reject(new ServerError(9, 'Internal Server Error, could not zip directory', err));
             throw err;
         });

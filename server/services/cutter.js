@@ -11,10 +11,8 @@ const ICON_SIZE = 128;
  * @param {string} imageName the name of the image to cut
  */
 cutter.cutImage = async (imageName) => {
-    console.log('reading image to cut');
     try {
         let image = await imageProcessor.readImageFromStorage(imageName);
-        console.log('image was read successfully');
         let imgWidth = image.bitmap.width;
         let imgHeight = image.bitmap.height;
 
@@ -28,7 +26,6 @@ cutter.cutImage = async (imageName) => {
         await Promise.all(emojiPiecesCuttingPromisses);
         return [imgHeight / ICON_SIZE, imgWidth / ICON_SIZE];
     } catch (err) {
-        console.log('failed while cutting/reading image from storage', err);
         if (err instanceof ServerError)
             return Promise.reject(err);
         else

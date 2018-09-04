@@ -35,13 +35,10 @@ fileManager.removeDirectory = (dir) => {
 }
 
 fileManager.cleanEmojiFiles = async (emojiName) => {
-
-    console.log('deleting image-in and image-out files (cleanup)');
     try {
         await fileManager.removeFile(path.join(__dirname, '../image-in'), emojiName);
         await fileManager.removeDirectory(path.join(__dirname, `../image-out/${emojiName}`));
     } catch (err) {
-        console.log(err);
         res.status(500).send(err);
     }
 }
