@@ -7,7 +7,7 @@ class Intro extends Component {
     render() {
         return (
             <div style={styles.introContainer}>
-                <h1 style={styles.introTitle}>Emoji Cutter Alpha</h1>
+                <h1 style={styles.introTitle}>Emoji Cutter Beta</h1>
                 <div style={styles.introBodyContainer}>
                     <div style={styles.introDescriptionContainer}>
                         <h2>Post HUGE Emojis on Slack</h2>
