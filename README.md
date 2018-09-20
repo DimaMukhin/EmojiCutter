@@ -1,7 +1,10 @@
 # EmojiCutter
-Emoji Cutter application for Slack. Cut large images into small emoji pieces.
 
-## prerequisites
+![Alt Text](./src/res/intro.gif)
+
+Emoji Cutter lets you generate and use HUGE emojis on Slack. Application consists of a web front-end built with React, and a Node express back-end server.
+
+## requirements
 
 1. [Node + npm](https://nodejs.org/en/)
 
