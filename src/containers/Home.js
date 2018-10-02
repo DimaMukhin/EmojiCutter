@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { animateScroll as scroll } from "react-scroll";
 
 import Intro from './Intro';
 import Cutter from './Cutter';
@@ -7,15 +8,26 @@ import EmojiString from './EmojiString';
 import Footer from '../components/Footer';
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.cutterRef = React.createRef();
+    }
+
+    animatedScrollToCutter = () => {
+        console.log(this.cutterRef.current.offsetTop);
+        scroll.scrollTo(this.cutterRef.current.offsetTop)
+        // window.scrollTo(0, this.cutterRef.current.offsetTop)
+    }
+
     render() {
         return (
             <div style={styles.homeContainer}>
                 <div style={styles.introWrapper}>
                     <div style={styles.sectionContainer}>
-                        <Intro />
+                        <Intro animatedScrollToCutter={this.animatedScrollToCutter} />
                     </div>
                 </div>
-                <div style={styles.cutterWrapper}>
+                <div ref={this.cutterRef} style={styles.cutterWrapper}>
                     <div style={styles.sectionContainer}>
                         <Cutter />
                     </div>
