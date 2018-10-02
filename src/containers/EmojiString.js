@@ -9,6 +9,11 @@ class EmojiString extends Component {
     render() {
         return (
             <div style={styles.emojiStringContainer}>
+                <h1 style={styles.emojiStringHeading}>Use the Emoji</h1>
+                <ul style={styles.topInstructionsList}>
+                    <li><h4>Emoji string will appear after generating an emoji</h4></li>
+                    <li><h4>Copy and paste the text below to a slack chat after uploading the emoji</h4></li>
+                </ul>
                 <div style={styles.emojiStringBody}>
                     <div style={styles.emojiStringBodyLeft}>
                         <CircleSpace style={styles.circleStepStyle}>
@@ -16,11 +21,6 @@ class EmojiString extends Component {
                         </CircleSpace>
                     </div>
                     <div>
-                        <h1 style={styles.emojiStringHeading}>Use the Emoji</h1>
-                        <ul style={styles.topInstructionsList}>
-                            <li><h4>Emoji string will appear after generating an emoji</h4></li>
-                            <li><h4>Copy and paste the text below to a slack chat after uploading the emoji</h4></li>
-                        </ul>
                         <Segment>
                             <div style={styles.copyToClipboardButton}>
                                 <CopyToClipboard text={this.props.emojiString}>
@@ -37,7 +37,9 @@ class EmojiString extends Component {
                             </div>
                         </Segment>
                     </div>
-                    <div />
+                    <div>
+
+                    </div>
                 </div>
             </div>
         );
@@ -53,7 +55,7 @@ const styles = {
     },
     emojiStringBody: {
         display: 'grid',
-        gridTemplateColumns: '1fr 2fr',
+        gridTemplateColumns: '1fr 1fr 1fr',
     },
     emojiStringBodyLeft: {
         display: 'flex',
@@ -68,7 +70,7 @@ const styles = {
     },
     emojiStringSegment: {
         minHeight: 60,
-        maxHeight: 200,
+        maxHeight: 200,        
         overflow: 'auto',
     },
     copyToClipboardButton: {
