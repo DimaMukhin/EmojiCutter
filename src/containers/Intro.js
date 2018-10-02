@@ -19,7 +19,7 @@ class Intro extends Component {
                     </div>
                 </div>
                 <div>
-                    <Icon name="arrow alternate circle down" size={'huge'}/>
+                    <Icon style={styles.introArrowIcon} onClick={this.props.animatedScrollToCutter} name="arrow alternate circle down" size={'huge'}/>
                 </div>
             </div>
         );
@@ -51,6 +51,9 @@ const styles = {
         height: 300,
         backgroundColor: '#aaaaaa',
         outline: '1px solid black'
+    },
+    introArrowIcon: {
+        cursor: 'pointer'
     }
 }
 
