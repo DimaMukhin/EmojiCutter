@@ -13,11 +13,7 @@ class Home extends Component {
         this.cutterRef = React.createRef();
     }
 
-    animatedScrollToCutter = () => {
-        console.log(this.cutterRef.current.offsetTop);
-        scroll.scrollTo(this.cutterRef.current.offsetTop)
-        // window.scrollTo(0, this.cutterRef.current.offsetTop)
-    }
+    animatedScrollToCutter = () => scroll.scrollTo(this.cutterRef.current.offsetTop)
 
     render() {
         return (
