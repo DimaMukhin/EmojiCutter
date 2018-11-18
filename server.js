@@ -16,14 +16,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // setting file upload
-app.use(fileUpload({
-  limits: { fileSize: 500 * 1024 },
-}));
+app.use(
+  fileUpload({
+    limits: { fileSize: 500 * 1024 }
+  })
+);
 
-// enabling cors 
+// enabling cors
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
   next();
 });
 
@@ -31,7 +36,7 @@ app.use((req, res, next) => {
 app.enable('Heroku');
 
 let apiLimiter = new RateLimit({
-  windowMs: 1*30*1000, // 30 seconds
+  windowMs: 1 * 30 * 1000, // 30 seconds
   max: 1, // limit each IP to 1 requests per windowMs
   delayMs: 0, // disable delaying - full speed until the max limit is reached
   skipFailedRequests: true
@@ -49,7 +54,7 @@ app.get('*', (req, res) => {
 
 // start listening for requests on the given port
 app.listen(port, () => {
-  console.log("Server running on port:" + port);
+  console.log('Server running on port:' + port);
 });
 
 module.exports = app;

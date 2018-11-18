@@ -8,7 +8,7 @@ const router = express.Router();
  * API Health status
  */
 router.get('/', (req, res) => {
-    res.status(200).send('ok');
+  res.status(200).send('ok');
 });
 
 // routes

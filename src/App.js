@@ -9,7 +9,9 @@ class App extends Component {
     return (
       <div style={styles.appContainer}>
         <Switch>
-          {routes.map((route, i) => <Route key={i} {...route} />)}
+          {routes.map((route, i) => (
+            <Route key={i} {...route} />
+          ))}
         </Switch>
       </div>
     );
@@ -20,6 +22,6 @@ const styles = {
   appContainer: {
     height: '100%'
   }
-}
+};
 
 export default App;

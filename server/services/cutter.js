@@ -10,27 +10,30 @@ const ICON_SIZE = 128;
  * image should be in image-in with the name <imageName>
  * @param {string} imageName the name of the image to cut
  */
-cutter.cutImage = async (imageName) => {
-    try {
-        let image = await imageProcessor.readImageFromStorage(imageName);
-        let imgWidth = image.bitmap.width;
-        let imgHeight = image.bitmap.height;
+cutter.cutImage = async imageName => {
+  try {
+    let image = await imageProcessor.readImageFromStorage(imageName);
+    let imgWidth = image.bitmap.width;
+    let imgHeight = image.bitmap.height;
 
-        let emojiPiecesCuttingPromisses = [];
-        for (let row = 0; row * ICON_SIZE < imgHeight; row++) {
-            for (let col = 0; col * ICON_SIZE < imgWidth; col++) {
-                emojiPiecesCuttingPromisses.push(imageProcessor.cutEmojiPieceFromImage(image, row, col, imageName));
-            }
-        }
-
-        await Promise.all(emojiPiecesCuttingPromisses);
-        return [imgHeight / ICON_SIZE, imgWidth / ICON_SIZE];
-    } catch (err) {
-        if (err instanceof ServerError)
-            return Promise.reject(err);
-        else
-            return Promise.reject(new ServerError(5, 'Internal Server Error, could not read file', err));
+    let emojiPiecesCuttingPromisses = [];
+    for (let row = 0; row * ICON_SIZE < imgHeight; row++) {
+      for (let col = 0; col * ICON_SIZE < imgWidth; col++) {
+        emojiPiecesCuttingPromisses.push(
+          imageProcessor.cutEmojiPieceFromImage(image, row, col, imageName)
+        );
+      }
     }
-}
+
+    await Promise.all(emojiPiecesCuttingPromisses);
+    return [imgHeight / ICON_SIZE, imgWidth / ICON_SIZE];
+  } catch (err) {
+    if (err instanceof ServerError) return Promise.reject(err);
+    else
+      return Promise.reject(
+        new ServerError(5, 'Internal Server Error, could not read file', err)
+      );
+  }
+};
 
 module.exports = cutter;

@@ -11,11 +11,11 @@
  *  10: max file size exceeded
  */
 class ServerError {
-    constructor(code, message, delegatedError) {
-        this.message = message;
-        this.code = code;
-        this.delegatedError = delegatedError;
-    }
+  constructor(code, message, delegatedError) {
+    this.message = message;
+    this.code = code;
+    this.delegatedError = delegatedError;
+  }
 }
 
 module.exports = ServerError;
