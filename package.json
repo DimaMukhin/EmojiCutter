@@ -33,6 +33,11 @@
     "eject": "react-scripts eject",
     "prettier": "prettier --single-quote --write **/*.{js,css,json}"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier"
+    }
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -40,6 +45,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "husky": "^1.2.0",
     "prettier": "^1.15.2"
   }
 }
