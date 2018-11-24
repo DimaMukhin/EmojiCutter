@@ -35,8 +35,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,css,json}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "browserslist": [
     ">0.2%",
@@ -46,6 +52,7 @@
   ],
   "devDependencies": {
     "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
     "prettier": "^1.15.2"
   }
 }
