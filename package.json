@@ -31,7 +31,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "prettier": "prettier --single-quote --write **/*.{js,css,json}"
+    "prettier": "prettier --single-quote --write **/*.{js,css,json}",
+    "lint": "eslint --ext .js --quiet ."
   },
   "husky": {
     "hooks": {
@@ -51,6 +52,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.2"
