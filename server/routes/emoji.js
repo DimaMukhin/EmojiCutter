@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
   }
 
   // get and save file
-  let imageFile = req.files.upfile;
+  const imageFile = req.files.upfile;
   if (!imageFile) {
     res.status(400).send(new ServerError(2, 'no file found'));
     return;
@@ -35,8 +35,9 @@ router.post('/', async (req, res) => {
     return;
   }
 
-  emojiName =
-    emojiName.toLowerCase() + '.' + stringBuilder.getExtension(imageFile.name);
+  emojiName = `${emojiName.toLowerCase()}.${stringBuilder.getExtension(
+    imageFile.name
+  )}`;
 
   try {
     await fileManager.moveFile(
@@ -63,7 +64,7 @@ router.post('/', async (req, res) => {
   }
 
   // build emoji string
-  let emojiString = stringBuilder.buildEmojiString(
+  const emojiString = stringBuilder.buildEmojiString(
     rowsCols[0],
     rowsCols[1],
     emojiName
@@ -84,7 +85,7 @@ router.post('/', async (req, res) => {
   // send back response
   res.status(200).send({
     fileName: emojiName,
-    emojiString: emojiString
+    emojiString
   });
 });
 

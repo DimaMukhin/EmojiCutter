@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 // express-rate-limit
 app.enable('Heroku');
 
-let apiLimiter = new RateLimit({
+const apiLimiter = new RateLimit({
   windowMs: 1 * 30 * 1000, // 30 seconds
   max: 1, // limit each IP to 1 requests per windowMs
   delayMs: 0, // disable delaying - full speed until the max limit is reached
@@ -54,7 +54,7 @@ app.get('*', (req, res) => {
 
 // start listening for requests on the given port
 app.listen(port, () => {
-  console.log('Server running on port:' + port);
+  console.log(`Server running on port:${port}`);
 });
 
 module.exports = app;
