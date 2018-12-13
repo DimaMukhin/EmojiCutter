@@ -12,11 +12,11 @@ const ICON_SIZE = 128;
  */
 cutter.cutImage = async imageName => {
   try {
-    let image = await imageProcessor.readImageFromStorage(imageName);
-    let imgWidth = image.bitmap.width;
-    let imgHeight = image.bitmap.height;
+    const image = await imageProcessor.readImageFromStorage(imageName);
+    const imgWidth = image.bitmap.width;
+    const imgHeight = image.bitmap.height;
 
-    let emojiPiecesCuttingPromisses = [];
+    const emojiPiecesCuttingPromisses = [];
     for (let row = 0; row * ICON_SIZE < imgHeight; row++) {
       for (let col = 0; col * ICON_SIZE < imgWidth; col++) {
         emojiPiecesCuttingPromisses.push(
@@ -29,10 +29,9 @@ cutter.cutImage = async imageName => {
     return [imgHeight / ICON_SIZE, imgWidth / ICON_SIZE];
   } catch (err) {
     if (err instanceof ServerError) return Promise.reject(err);
-    else
-      return Promise.reject(
-        new ServerError(5, 'Internal Server Error, could not read file', err)
-      );
+    return Promise.reject(
+      new ServerError(5, 'Internal Server Error, could not read file', err)
+    );
   }
 };
 

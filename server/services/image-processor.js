@@ -10,7 +10,9 @@ const ICON_SIZE = 128;
  * @param {string} imageName the name of the image to read
  */
 imageProcessor.readImageFromStorage = async imageName => {
-  let image = await Jimp.read(path.join(__dirname, `../image-in/${imageName}`));
+  const image = await Jimp.read(
+    path.join(__dirname, `../image-in/${imageName}`)
+  );
 
   if (!image) {
     return Promise.reject(new ServerError(4, 'file format not supported'));
@@ -29,10 +31,10 @@ imageProcessor.readImageFromStorage = async imageName => {
  * @param {string}  imageName   the name of the emoji
  */
 imageProcessor.cutEmojiPieceFromImage = (image, row, col, imageName) => {
-  let imgWidth = image.bitmap.width;
-  let imgHeight = image.bitmap.height;
-  let resizedImgWidth = Math.round(imgWidth / ICON_SIZE) * ICON_SIZE;
-  let resizedImgHeight = Math.round(imgHeight / ICON_SIZE) * ICON_SIZE;
+  const imgWidth = image.bitmap.width;
+  const imgHeight = image.bitmap.height;
+  const resizedImgWidth = Math.round(imgWidth / ICON_SIZE) * ICON_SIZE;
+  const resizedImgHeight = Math.round(imgHeight / ICON_SIZE) * ICON_SIZE;
 
   return new Promise((resolve, reject) => {
     image

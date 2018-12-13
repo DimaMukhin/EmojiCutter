@@ -8,12 +8,12 @@ const ServerError = require('../models/ServerError');
 const fileManager = {};
 
 fileManager.moveFile = async (file, dir, newFileName) => {
-  let err = await file.mv(path.join(path.join(dir, newFileName)));
+  const err = await file.mv(path.join(path.join(dir, newFileName)));
   if (err) throw err;
 };
 
-fileManager.removeFile = (dir, fileName) => {
-  return new Promise((resolve, reject) => {
+fileManager.removeFile = (dir, fileName) =>
+  new Promise((resolve, reject) => {
     fs.unlink(path.join(dir, fileName), err => {
       if (err) {
         reject(
@@ -27,10 +27,9 @@ fileManager.removeFile = (dir, fileName) => {
       resolve();
     });
   });
-};
 
-fileManager.removeDirectory = dir => {
-  return new Promise((resolve, reject) => {
+fileManager.removeDirectory = dir =>
+  new Promise((resolve, reject) => {
     rimraf(dir, err => {
       if (err) {
         reject(
@@ -44,7 +43,6 @@ fileManager.removeDirectory = dir => {
       resolve();
     });
   });
-};
 
 fileManager.cleanEmojiFiles = async emojiName => {
   try {

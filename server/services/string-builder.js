@@ -28,18 +28,15 @@ stringBuilder.buildEmojiString = (rows, cols, imageName) => {
  * Basically return the name of the file up until the first period
  * @param {string} fileName the name of the file to strip
  */
-stringBuilder.stripExtension = fileName => {
-  return fileName.substring(0, fileName.indexOf('.'));
-};
+stringBuilder.stripExtension = fileName =>
+  fileName.substring(0, fileName.indexOf('.'));
 
 /**
  * get the extension of a file
  * example, return .png for filename.png
  * @param {string} fileName
  */
-stringBuilder.getExtension = fileName => {
-  return fileName.split('.').pop();
-};
+stringBuilder.getExtension = fileName => fileName.split('.').pop();
 
 /**
  * test if emoji name is valid
@@ -49,8 +46,6 @@ stringBuilder.getExtension = fileName => {
  *  - dashes ("-")
  * @param {boolean} true if invalid, false otherwise
  */
-stringBuilder.testEmojiName = emojiName => {
-  return RegExp('[^0-9a-z-]').test(emojiName);
-};
+stringBuilder.testEmojiName = emojiName => RegExp('[^0-9a-z-]').test(emojiName);
 
 module.exports = stringBuilder;
