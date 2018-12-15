@@ -11,18 +11,18 @@ const zipper = {};
  * all emojis should be in /image-in/<emoji-name/
  * @param {string} imageName the name of the large emoji to zip
  */
-zipper.zipImage = imageName => {
-  return new Promise((resolve, reject) => {
+zipper.zipImage = imageName =>
+  new Promise((resolve, reject) => {
     const output = fs.createWriteStream(
       path.join(__dirname, `../zip-out/${imageName}.zip`)
     );
-    let archive = archiver('zip');
+    const archive = archiver('zip');
 
-    output.on('close', function() {
+    output.on('close', () => {
       resolve();
     });
 
-    archive.on('error', function(err) {
+    archive.on('error', err => {
       reject(
         new ServerError(
           9,
@@ -39,6 +39,5 @@ zipper.zipImage = imageName => {
 
     archive.finalize();
   });
-};
 
 module.exports = zipper;
