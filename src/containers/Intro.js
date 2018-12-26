@@ -23,7 +23,7 @@ class Intro extends Component {
             style={styles.introArrowIcon}
             onClick={this.props.animatedScrollToCutter}
             name="arrow alternate circle down"
-            size={'huge'}
+            size="huge"
           />
         </div>
       </div>
