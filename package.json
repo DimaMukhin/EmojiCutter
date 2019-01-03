@@ -32,7 +32,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "prettier": "prettier --single-quote --write **/*.{js,css,json}",
-    "lint": "eslint --ext .js --quiet ."
+    "lint:check": "eslint --ext .js --quiet .",
+    "lint:fix": "eslint --ext .js --fix ."
   },
   "husky": {
     "hooks": {
