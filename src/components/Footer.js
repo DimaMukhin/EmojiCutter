@@ -22,8 +22,7 @@ const Footer = () => (
       </a>
     </h3>
     <p>
-      Beta
-      {packageJson.version}
+      Beta {packageJson.version}
     </p>
   </div>
 );
